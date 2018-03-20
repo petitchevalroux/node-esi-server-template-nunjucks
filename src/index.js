@@ -11,14 +11,26 @@ class NunjucksTemplateProvider {
         const self = this;
         return Promise.resolve({
             render: (data) => {
-                return self.env.render(name, Object.assign(data ||
+                return self.render(name, Object.assign(data ||
                     {}, {
                     "template": {
                         "name": name,
-                        params: params
+                        "params": params
                     }
                 }));
             }
+        });
+    }
+
+    render(name, data) {
+        const self = this;
+        return new Promise((resolve, reject) => {
+            self.env.render(name, data, (err, content) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(content);
+            });
         });
     }
 }
