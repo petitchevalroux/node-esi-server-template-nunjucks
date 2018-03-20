@@ -10,11 +10,14 @@ describe("provider", () => {
         return provider
             .get("article.html")
             .then(template => {
+                return template.render({
+                    "title": "My first article",
+                    "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                });
+            })
+            .then(content => {
                 assert.equal(
-                    template.render({
-                        "title": "My first article",
-                        "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                    }),
+                    content,
                     "<article>\n" +
                     "    <h1 class=\"title\">My first article</h1>\n" +
                     "    <div class=\"body\">\n" +
@@ -30,8 +33,11 @@ describe("provider", () => {
             .get("template.html",
                 "Curabitur luctus lectus libero")
             .then(template => {
+                return template.render();
+            })
+            .then(content => {
                 assert.equal(
-                    template.render(),
+                    content,
                     "<dl>\n\n" +
                     "    <dt>name</dt>\n" +
                     "    <dd>template.html</dd>\n\n" +
